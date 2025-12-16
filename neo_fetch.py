@@ -1,6 +1,6 @@
 import requests
 
-API_KEY = "DEMO_KEY"  # works for now
+API_KEY = "DEMO_KEY"  
 URL = "https://api.nasa.gov/neo/rest/v1/feed"
 
 params = {

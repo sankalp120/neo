@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # -----------------------------
 # CONFIG
 # -----------------------------
-API_KEY = "KZfKbwUB4blcG9VcEio6xeO7otvjUNiBEdmOlxPD"  # replace later with your real key
+API_KEY = "DEMO_KEY"  # replace later with your real key
 URL = "https://api.nasa.gov/neo/rest/v1/feed"
 
 START_DATE = "2024-01-01"
