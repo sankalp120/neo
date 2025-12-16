@@ -16,7 +16,7 @@ START_DATE = "2024-01-01"
 END_DATE = "2024-01-07"
 
 # -----------------------------
-# PAIR MODEL (same as API)
+# PAIR COMPONENTS
 # -----------------------------
 def compute_pair_components(diameter_m, velocity_kph, miss_distance_km):
     D0 = 384000  # Earth–Moon distance (km)
@@ -26,7 +26,6 @@ def compute_pair_components(diameter_m, velocity_kph, miss_distance_km):
     velocity_n = velocity_kph / 100000
 
     impact = (diameter_n ** 3) * (velocity_n ** 2)
-
     return probability, impact
 
 # -----------------------------
@@ -41,16 +40,14 @@ params = {
 data = requests.get(NASA_URL, params=params).json()
 
 if "near_earth_objects" not in data:
-    print("NASA API error:")
-    print(data)
+    print("NASA API error:", data)
     exit()
 
 # -----------------------------
 # COLLECT POINTS
 # -----------------------------
-probabilities = []
-impacts = []
-labels = []
+prob_hazard, impact_hazard = [], []
+prob_safe, impact_safe = [], []
 
 for date in data["near_earth_objects"]:
     for neo in data["near_earth_objects"][date]:
@@ -62,17 +59,24 @@ for date in data["near_earth_objects"]:
 
         p, i = compute_pair_components(diameter, velocity, distance)
 
-        probabilities.append(p)
-        impacts.append(i)
-        labels.append(neo["is_potentially_hazardous_asteroid"])
+        if neo["is_potentially_hazardous_asteroid"]:
+            prob_hazard.append(p)
+            impact_hazard.append(i)
+        else:
+            prob_safe.append(p)
+            impact_safe.append(i)
 
 # -----------------------------
 # VISUALIZATION
 # -----------------------------
 plt.figure()
-plt.scatter(probabilities, impacts)
+
+plt.scatter(prob_safe, impact_safe, label="Non-hazardous", alpha=0.6)
+plt.scatter(prob_hazard, impact_hazard, label="Hazardous", alpha=0.9)
+
 plt.xlabel("Impact Probability (proxy)")
 plt.ylabel("Impact Severity (proxy)")
-plt.title("PAIR: Probability vs Impact")
 plt.yscale("log")
+plt.title("PAIR: Probability vs Impact (Color-coded by NASA Hazard Flag)")
+plt.legend()
 plt.show()
