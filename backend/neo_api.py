@@ -3,7 +3,6 @@ import requests
 import math
 import os
 from dotenv import load_dotenv
-from fastapi.middleware.cors import CORSMiddleware
 
 # -----------------------------
 # ENV + APP SETUP
@@ -11,18 +10,6 @@ from fastapi.middleware.cors import CORSMiddleware
 load_dotenv()
 
 app = FastAPI(title="NASA NEO Probabilistic Risk API")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://127.0.0.1:5500",
-        "http://localhost:5500"
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 
 NASA_API_KEY = os.getenv("NASA_API_KEY")
 NASA_URL = "https://api.nasa.gov/neo/rest/v1/feed"
