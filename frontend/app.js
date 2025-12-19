@@ -1,18 +1,28 @@
 let barChart = null;
 let scatterChart = null;
 
+const API_BASE = "http://127.0.0.1:8000/asteroids";
+
+function buildApiUrl(startDate, endDate) {
+  const params = new URLSearchParams({
+    start_date: startDate,
+    end_date: endDate
+  });
+  return `${API_BASE}?${params.toString()}`;
+}
+
 async function loadData() {
   const thresholdInput = document.getElementById("threshold");
   const thresholdValue = document.getElementById("thresholdValue");
   const threshold = Number(thresholdInput.value);
   thresholdValue.textContent = threshold;
 
-  // --------------------
-  // FETCH DATA
-  // --------------------
-  const response = await fetch(
-    "http://127.0.0.1:8000/asteroids?start_date=2024-01-01&end_date=2024-01-03"
-  );
+  const startDate = document.getElementById("startDate").value;
+  const endDate = document.getElementById("endDate").value;
+
+  const url = buildApiUrl(startDate, endDate);
+
+  const response = await fetch(url);
   const data = await response.json();
 
   // --------------------
@@ -24,11 +34,8 @@ async function loadData() {
   data.forEach(ast => {
     const row = document.createElement("tr");
 
-    if (ast.pair_risk_score >= threshold) {
-      row.style.backgroundColor = "#ffcccc";
-    } else {
-      row.style.backgroundColor = "#e6fffa";
-    }
+    row.style.backgroundColor =
+      ast.pair_risk_score >= threshold ? "#ffcccc" : "#e6fffa";
 
     row.innerHTML = `
       <td>${ast.name}</td>
@@ -66,13 +73,7 @@ async function loadData() {
     options: {
       responsive: true,
       scales: {
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: "PAIR Risk Score"
-          }
-        }
+        y: { beginAtZero: true }
       }
     }
   });
@@ -104,23 +105,26 @@ async function loadData() {
     },
     options: {
       scales: {
-        x: {
-          title: {
-            display: true,
-            text: "Impact Probability"
-          }
-        },
         y: {
-          type: "logarithmic",
-          title: {
-            display: true,
-            text: "Impact Severity (log scale)"
-          }
+          type: "logarithmic"
         }
       }
     }
   });
 }
 
-// Slider should re-render everything
+// Events
 document.getElementById("threshold").addEventListener("input", loadData);
+document.getElementById("loadBtn").addEventListener("click", loadData);
+
+document.getElementById("threeBtn").addEventListener("click", () => {
+  const startDate = document.getElementById("startDate").value;
+  const endDate = document.getElementById("endDate").value;
+
+  const params = new URLSearchParams({
+    start_date: startDate,
+    end_date: endDate
+  });
+
+  window.location.href = `three.html?${params.toString()}`;
+});

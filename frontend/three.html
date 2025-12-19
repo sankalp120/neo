@@ -1,24 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NEO Visualization</title>
-    <style>
-      body {
-        margin: 0;
-      }
-    </style>
-    <script type="importmap">
-			{
-				"imports": {
-					"three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
-          "jsm/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
-        }
-			}
-		</script>
-  </head>
-  <body>
-    <script type="module" src="three.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>NEO Visualization</title>
+
+  <style>
+    body { margin: 0; overflow: hidden; }
+    #info {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: white;
+      background: rgba(0,0,0,0.6);
+      padding: 8px;
+      z-index: 10;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+      "jsm/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <div id="info">
+    <div id="dateInfo"></div>
+    <a href="index.html" style="color:#4ea3ff">← Back</a>
+  </div>
+
+  <script type="module" src="three.js"></script>
+</body>
 </html>

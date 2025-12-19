@@ -12,23 +12,47 @@
       font-family: Arial, sans-serif;
       margin: 20px;
     }
+
     table {
       border-collapse: collapse;
       margin-top: 15px;
       width: 100%;
     }
+
     th, td {
       border: 1px solid #ccc;
       padding: 8px;
       text-align: center;
     }
+
+    .controls {
+      margin-bottom: 15px;
+    }
+
+    button {
+      margin-right: 10px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
   </style>
 </head>
+
 <body>
 
   <h1>NASA NEO Probabilistic Asteroid Risk (PAIR)</h1>
 
-  <!-- Threshold control -->
+  <div class="controls">
+    <label>
+      Start Date:
+      <input type="date" id="startDate" value="2024-01-01">
+    </label>
+
+    <label>
+      End Date:
+      <input type="date" id="endDate" value="2024-01-03">
+    </label>
+  </div>
+
   <label>
     Risk Threshold:
     <input type="range" id="threshold" min="0" max="100" value="40">
@@ -36,7 +60,9 @@
   </label>
 
   <br><br>
-  <button onclick="loadData()">Load Asteroids</button>
+
+  <button id="loadBtn">Load Asteroids</button>
+  <button id="threeBtn">3D</button>
 
   <!-- Table -->
   <table>
@@ -57,7 +83,6 @@
   <h2>Probability vs Impact</h2>
   <canvas id="scatterChart" width="800" height="300"></canvas>
 
-  <!-- App JS (MUST be last) -->
   <script src="app.js"></script>
 </body>
 </html>
